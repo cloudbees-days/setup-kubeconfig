@@ -19,3 +19,4 @@ runs:
           mkdir -p $HOME/.kube
           printf ${{ inputs.secname }} |base64 --decode >$HOME/.kube/config
           printf "kubeconfig set\n"
+          kubectl cluster-info
