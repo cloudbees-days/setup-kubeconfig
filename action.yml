@@ -1,0 +1,21 @@
+---
+apiVersion: automation.cloudbees.io/v1alpha1
+kind: action
+name: set kubeconfig
+description: set a kubeconfig from a encrypted secret
+inputs:
+  secname:
+    description: encrypted secret
+    required: true
+runs:
+  using: composite
+  steps:
+    - id: createconfig
+      name: create kube config
+      uses: docker://bitnami/kubectl:latest
+      shell: sh
+      run: |
+          
+          mkdir -p $HOME/.kube
+          printf ${{ inputs.secname }} |base64 --decode >$HOME/.kube/config
+          printf "kubeconfig set\n"
